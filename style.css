@@ -1,0 +1,122 @@
+/* 
+Global 
+*/
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+/* 
+Header & Footer
+*/
+
+header,
+footer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+
+/* 
+Main 
+*/
+
+main{
+  color: white;
+}
+
+select{
+  margin: 0 10px;
+  background-color: white;
+  border: none;
+}
+
+button{
+  padding: 2px 10px;
+  background-color: rgb(146, 255, 127);
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.main-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #021527;
+  height: calc(100vh - 100px);
+}
+
+.container{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  width: 500px;
+  height: 500px;
+}
+
+.square-100{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: calc(100% / 10);
+  height: calc(100% / 10);
+  border: 2px solid white;
+
+  color: white;
+  cursor: pointer;
+}
+
+.square-81{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: calc(100% / 9);
+  height: calc(100% / 9);
+  border: 2px solid white;
+
+  color: white;
+  cursor: pointer;
+}
+
+.square-49{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: calc(100% / 7);
+  height: calc(100% / 7);
+  border: 2px solid white;
+
+  color: white;
+  cursor: pointer;
+}
+
+.square-100 span{
+  display: none;
+}
+
+.square-100 .clicked span{
+  display: block;
+}
+
+.square-100.clicked,
+.square-81.clicked,
+.square-49.clicked{
+  background-color: skyblue;
+}
+
+.bomb{
+  background-color: brown;
+}
