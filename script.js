@@ -41,18 +41,51 @@ function play() {
   const levels = [100,81,49];
   const cellNumbers = levels[difficult]; //numero delle celle da generare
 
-  creaQuadrati(cellNumbers);
-  
+  const square = creaQuadrati(cellNumbers);
+
+  const bombs = bombGenerator(cellNumbers);
+
 }
 
 function creaQuadrati(cellNumbers) {
 
-  for (let x = 1; x <= cellNumbers; x++) {
+  for (let x = 1; x <= cellNumbers; x++) { //generiamo le celle in funzione della modalità selezionata dall'utente
     const square = document.createElement("div");
     square.classList.add("square-"+cellNumbers)
     square.innerHTML = x;
+    
+    square.addEventListener("click", function(){
+      this.classList.add("clicked");
+    })
     container.append(square);
 
   }
 
+}
+
+
+// 2. Creare le 16 bombe.
+
+function bombGenerator(cellNumbers) {
+
+  let generatedBombs = [];
+
+  while (generatedBombs.length < 16) {
+    let bombs;
+    bombs = generateUniqueRandomNumber(cellNumbers,1);
+
+    if (!generatedBombs.includes(bombs)) {
+      generatedBombs.push(bombs)
+    }
+
+    console.log(generatedBombs);
+
+  }
+
+  return generatedBombs
+}
+
+
+function generateUniqueRandomNumber(max, min){
+  return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
