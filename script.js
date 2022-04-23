@@ -33,17 +33,23 @@ const startButton = document.getElementById("play");
 startButton.addEventListener("click", play);
 
 const container = document.querySelector(".container")
+const winCondition = 10; //numero di slot che servono per vincere
+
 
 function play() {
   container.innerHTML = ""; //reset del contenitore
+  generatedBombs.length = 0; //reset dell'array
+  listaCelleCliccate.length = 0 //reset punteggio giocatore
 
   const difficult = document.getElementById("difficult").value;
   const levels = [100,81,49];
   const cellNumbers = levels[difficult]; //numero delle celle da generare
+  
+  console.log(winCondition);
 
   const square = creaQuadrati(cellNumbers);
 
-  const bombs = bombGenerator(cellNumbers);
+  const bombs = creaBombe(cellNumbers);
 
 }
 
@@ -53,22 +59,59 @@ function creaQuadrati(cellNumbers) {
     const square = document.createElement("div");
     square.classList.add("square-"+cellNumbers)
     square.innerHTML = x;
+    square.myNumber = x;
     
-    square.addEventListener("click", function(){
-      this.classList.add("clicked");
-    })
+    square.addEventListener("click", cellaCliccata);
     container.append(square);
 
   }
 
 }
 
+let listaCelleCliccate = [];
+
+// Funzione per colorare le celle
+function cellaCliccata(){
+
+  this.classList.add("clicked");
+  console.log(this);
+  console.log(this.myNumber);
+
+
+  if (generatedBombs.includes(this.myNumber) ) {
+    this.classList.remove("clicked");
+    this.classList.add("bomb");
+    
+    console.log("è nell'array");
+
+    stopGame(listaCelleCliccate);
+  } else {
+    console.log("non è nell'array");
+
+    // listaCelleCliccate.push(this.myNumber);
+    if (!listaCelleCliccate.includes(this.myNumber)) { //contatore punteggio player
+      listaCelleCliccate.push(this.myNumber)
+    }
+
+    if (listaCelleCliccate.length === winCondition) { //condizione per fermare la partita e vincere il gioco
+      container.innerHTML +=
+      `
+      <div class="result-container" text-center">
+        <p>Hai azzeccato ${winCondition} slot e hai vinto. Gioca ancora!</p>
+      </div>
+      `;
+    }
+
+    console.log("questi sono i numeri che hai azzeccato:", listaCelleCliccate);
+  }
+}
+
 
 // 2. Creare le 16 bombe.
 
-function bombGenerator(cellNumbers) {
+let generatedBombs = [];
 
-  let generatedBombs = [];
+function creaBombe(cellNumbers) {
 
   while (generatedBombs.length < 16) {
     let bombs;
@@ -82,10 +125,30 @@ function bombGenerator(cellNumbers) {
 
   }
 
-  return generatedBombs
+  return generatedBombs;
 }
 
 
 function generateUniqueRandomNumber(max, min){
   return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+
+
+// 3. Funzione che ferma il gioco
+
+function stopGame(listaCelleCliccate){
+  console.log("stop Game");
+  console.log(listaCelleCliccate.length);
+  container.innerHTML +=
+  `
+  <div class="result-container" text-center">
+    <p>Hai beccato una bomba e hai perso. Il tuo punteggio: ${listaCelleCliccate.length} slot su 10.</p>
+  </div>
+  `;
+
+  // while (generatedBombs.length < 16) {
+  //   generatedBombs[0].classList.add("bomb");
+  // }
+
 }
