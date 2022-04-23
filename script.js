@@ -30,13 +30,17 @@ BONUS:
 // 1. Generare i quadrati in base alla difficoltà selezionata dall'utente
 
 const startButton = document.getElementById("play");
-startButton.addEventListener("click", play);
+startButton.addEventListener("click", start);
 
 const container = document.querySelector(".container")
 const winCondition = 10; //numero di slot che servono per vincere
 
 
-function play() {
+function start() {
+
+  var audio = new Audio('sound/start.wav');
+  audio.play();
+
   container.innerHTML = ""; //reset del contenitore
   generatedBombs.length = 0; //reset dell'array
   listaCelleCliccate.length = 0 //reset punteggio giocatore
@@ -58,7 +62,7 @@ function creaQuadrati(cellNumbers) {
   for (let x = 1; x <= cellNumbers; x++) { //generiamo le celle in funzione della modalità selezionata dall'utente
     const square = document.createElement("div");
     square.classList.add("square-"+cellNumbers)
-    square.innerHTML = x;
+    // square.innerHTML = x;
     square.myNumber = x;
     
     square.addEventListener("click", cellaCliccata);
@@ -81,12 +85,16 @@ function cellaCliccata(){
   if (generatedBombs.includes(this.myNumber) ) {
     this.classList.remove("clicked");
     this.classList.add("bomb");
-    
+    this.innerHTML = `<span class="bomb"> &#128163 </span>`
+
     console.log("è nell'array");
 
     stopGame(listaCelleCliccate);
   } else {
     console.log("non è nell'array");
+
+    this.innerHTML = `<i class="fa-solid fa-check bg-green"></i>`
+
 
     // listaCelleCliccate.push(this.myNumber);
     if (!listaCelleCliccate.includes(this.myNumber)) { //contatore punteggio player
@@ -100,6 +108,14 @@ function cellaCliccata(){
         <p>Hai azzeccato ${winCondition} slot e hai vinto. Gioca ancora!</p>
       </div>
       `;
+
+      // var audio = new Audio('sound/win.mp3');
+      // audio.start();
+
+      var audio = new Audio('sound/win.mp3');
+      audio.play();
+
+
     }
 
     console.log("questi sono i numeri che hai azzeccato:", listaCelleCliccate);
@@ -150,5 +166,8 @@ function stopGame(listaCelleCliccate){
   // while (generatedBombs.length < 16) {
   //   generatedBombs[0].classList.add("bomb");
   // }
+
+  var audio = new Audio('sound/lose.wav');
+  audio.play();
 
 }

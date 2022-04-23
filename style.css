@@ -124,9 +124,13 @@ button{
 .square-100.clicked,
 .square-81.clicked,
 .square-49.clicked{
-  background-color: skyblue;
+  background-color: green;
 }
 
 .bomb{
   background-color: brown;
+}
+
+.bg-green{
+  background-color: green;
 }
