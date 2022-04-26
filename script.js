@@ -35,6 +35,9 @@ startButton.addEventListener("click", start);
 const container = document.querySelector(".container")
 const winCondition = 10; //numero di slot che servono per vincere
 
+const difficult = document.getElementById("difficult").value;
+  const levels = [100,81,49];
+  const cellNumbers = levels[difficult]; //numero delle celle da generare
 
 function start() {
 
@@ -44,10 +47,6 @@ function start() {
   container.innerHTML = ""; //reset del contenitore
   generatedBombs.length = 0; //reset dell'array
   listaCelleCliccate.length = 0 //reset punteggio giocatore
-
-  const difficult = document.getElementById("difficult").value;
-  const levels = [100,81,49];
-  const cellNumbers = levels[difficult]; //numero delle celle da generare
   
   console.log(winCondition);
 
@@ -77,13 +76,12 @@ let listaCelleCliccate = [];
 // Funzione per colorare le celle
 function cellaCliccata(){
 
-  this.classList.add("clicked");
+  
   console.log(this);
   console.log(this.myNumber);
 
 
   if (generatedBombs.includes(this.myNumber) ) {
-    this.classList.remove("clicked");
     this.classList.add("bomb");
     this.innerHTML = `<span class="bomb"> &#128163 </span>`
 
@@ -99,6 +97,12 @@ function cellaCliccata(){
     // listaCelleCliccate.push(this.myNumber);
     if (!listaCelleCliccate.includes(this.myNumber)) { //contatore punteggio player
       listaCelleCliccate.push(this.myNumber)
+
+      var audio = new Audio('sound/click.wav');
+      audio.play();
+
+      this.classList.add("clicked");
+
     }
 
     if (listaCelleCliccate.length === winCondition) { //condizione per fermare la partita e vincere il gioco
@@ -163,6 +167,8 @@ function stopGame(listaCelleCliccate){
   </div>
   `;
 
+  showAllBombs();
+
   // while (generatedBombs.length < 16) {
   //   generatedBombs[0].classList.add("bomb");
   // }
@@ -171,3 +177,19 @@ function stopGame(listaCelleCliccate){
   audio.play();
 
 }
+
+
+// 4. Funzione che fa scoppiare tutte le bombe
+
+function showAllBombs() {
+  const celle = document.getElementsByClassName("square-"+cellNumbers);
+
+  for(let x = 0; x < celle.length; x++){
+    if (generatedBombs.includes(x+1)){
+      celle[x].classList.add("bomb")
+      celle[x].innerHTML = `<span class="bomb"> &#128163 </span>`;
+    }
+  }
+
+}
+
